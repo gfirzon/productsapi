@@ -12,6 +12,13 @@ namespace ProductsApi.Controllers
     [ApiController]
     public class VendorsController : ControllerBase
     {
+        private readonly IMyService myService;
+
+        public VendorsController(IMyService s)
+        {
+            myService = s;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<Vendor>> Get()
@@ -28,7 +35,7 @@ namespace ProductsApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<Vendor> Get(int id)
         {
-            return new Vendor { VendorId = id, VendorName = "CCC", Phone = "0000000000" };
+            return new Vendor { VendorId = myService.foo(id, id), VendorName = "CCC", Phone = "0000000000" };
         }
 
         // POST api/values
