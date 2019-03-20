@@ -11,6 +11,6 @@ namespace ProductsApi.Models
         public string UserName { get; set; }
         public string UserPassword { get; set; }
         public bool IsActive { get; set; }
-
+        public int RoleID { get; set; }
     }
 }

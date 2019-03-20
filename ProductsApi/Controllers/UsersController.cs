@@ -26,9 +26,9 @@ namespace ProductsApi.Controllers
         
         // GET: api/Users/5
         [HttpGet("{id}", Name = "Get")]
-        public AcceptedResult<User> Get(int id)
+        public ActionResult<User> Get(int id)
         {
-            return new User { UserID = id, UserName = "Olga Kent", UserPassword = "kent.yahoo.com", IsActive = false };
+            return new User { UserID = id, UserName = "Olga Kent", UserPassword = "kent.yahoo", IsActive = false };
         }
 
         // POST: api/Users
