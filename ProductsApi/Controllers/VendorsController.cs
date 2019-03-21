@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProductsApi.Models;
 using System.Data;
+using Microsoft.Extensions.Configuration;
+using System.Data.SqlClient;
+using ProductsApi.Services;
 
 namespace ProductsApi.Controllers
 {
@@ -12,22 +15,18 @@ namespace ProductsApi.Controllers
     [ApiController]
     public class VendorsController : ControllerBase
     {
-        private readonly IMyService myService;
+        private readonly IVendorService vendorService;
 
-        public VendorsController(IMyService s)
+        public VendorsController(IVendorService vendorService)
         {
-            myService = s;
+            this.vendorService = vendorService;
         }
 
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<Vendor>> Get()
         {
-            List<Vendor> list = new List<Vendor> {
-                new Vendor{ VendorId = 1, VendorName = "AAA", Phone = "2221113344" },
-                new Vendor{ VendorId = 2, VendorName = "BBB", Phone = "3331112222" },
-            };
-
+            List<Vendor> list = vendorService.GetVendorList();
             return list;
         }
 
@@ -35,7 +34,7 @@ namespace ProductsApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<Vendor> Get(int id)
         {
-            return new Vendor { VendorId = myService.foo(id, id), VendorName = "CCC", Phone = "0000000000" };
+            return new Vendor { VendorId = id, VendorName = "CCC", Phone = "0000000000" };
         }
 
         // POST api/values
