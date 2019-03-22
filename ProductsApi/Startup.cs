@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ProductsApi.Repositories;
+using ProductsApi.Services;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ProductsApi
@@ -69,6 +71,10 @@ namespace ProductsApi
                 );
             });
 
+            services.AddSingleton<IConfiguration>(Configuration);
+
+            services.AddScoped<IVendorRepository, VendorRepository>();
+            services.AddScoped<IVendorService, VendorService>();
             services.AddScoped<ITheirService, TheirService>();
             services.AddScoped<IMyService, MyService>();
         }
