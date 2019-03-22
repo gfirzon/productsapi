@@ -9,5 +9,8 @@ namespace ProductsApi.Repositories
     public interface IVendorRepository
     {
         List<Vendor> GetVendorList();
+        Vendor GetVendor(int id);
+        int CreateVendor(Vendor vendor);
+        void UpdateVendor(Vendor vendor);
     }
 }

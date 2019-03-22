@@ -74,7 +74,10 @@ namespace ProductsApi
             services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddScoped<IVendorRepository, VendorRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IVendorService, VendorService>();
+            services.AddScoped<IUserService, UserService>();
+
             services.AddScoped<ITheirService, TheirService>();
             services.AddScoped<IMyService, MyService>();
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProductsApi.Models;
+using ProductsApi.Services;
 
 namespace ProductsApi.Controllers
 {
@@ -12,15 +13,19 @@ namespace ProductsApi.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IUserService userService;
+
+        public UsersController(IUserService userService)
+        {
+            this.userService = userService;
+        }
+
         // GET: api/Users
         [HttpGet]
         public ActionResult<IEnumerable<User>> Get()
         {
-            List<User> list = new List<User>{
-                new User{ UserID = 1, UserName = "Ivan Ivanov", UserPassword = "ivan@gmail.com", IsActive = true },
-                new User{ UserID = 2, UserName = "Svetlana Nikitin", UserPassword = "nikitin1212", IsActive = true}
+            List<User> list = userService.GetUserList();
 
-            };
             return list;
         }
         
@@ -35,12 +40,15 @@ namespace ProductsApi.Controllers
         [HttpPost]
         public void Post([FromBody] User value)
         {
+            //create
+            int n = 1;
         }
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] User value)
         {
+            //update
         }
 
         // DELETE: api/Users/5

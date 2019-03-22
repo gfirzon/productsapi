@@ -34,7 +34,9 @@ namespace ProductsApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<Vendor> Get(int id)
         {
-            return new Vendor { VendorId = id, VendorName = "CCC", Phone = "0000000000" };
+            Vendor vendor = vendorService.GetVendor(id);
+            return vendor;
+            //return new Vendor { VendorId = id, VendorName = "CCC", Phone = "0000000000" };
         }
 
         // POST api/values

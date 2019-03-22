@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ProductsApi.Services
 {
-    public interface IVendorService
+    public interface IUserService
     {
-        List<Vendor> GetVendorList();
-        Vendor GetVendor(int id);
+        List<User> GetUserList();
     }
 }

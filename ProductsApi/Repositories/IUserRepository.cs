@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProductsApi.Services
+namespace ProductsApi.Repositories
 {
-    public interface IVendorService
+    public interface IUserRepository
     {
-        List<Vendor> GetVendorList();
-        Vendor GetVendor(int id);
+        List<User> GetUserList();
     }
 }
