@@ -41,9 +41,10 @@ namespace ProductsApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] Vendor value)
+        public ActionResult<int> Post (Vendor vendor)
         {
             int n = 1;
+            return n;
         }
 
         // PUT api/values/5

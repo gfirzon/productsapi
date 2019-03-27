@@ -16,9 +16,24 @@ namespace ProductsApi.Services
             this.userRepository = userRepository;
         }
 
+        public int CreateUser(User user)
+        {
+            return userRepository.CreateUser(user);
+        }
+
+        public User GetUser(int id)
+        {
+            return userRepository.GetUser(id);
+        }
+
         public List<User> GetUserList()
         {
             return userRepository.GetUserList();
+        }
+
+        public void UpdateUser(User user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -9,5 +9,8 @@ namespace ProductsApi.Repositories
     public interface IUserRepository
     {
         List<User> GetUserList();
+        User GetUser(int id);
+        int CreateUser(User user);
+        void UpdateUser(User user);
     }
 }
