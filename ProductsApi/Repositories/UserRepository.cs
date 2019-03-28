@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Products.Utilites;
 using ProductsApi.Models;
 
 namespace ProductsApi.Repositories
@@ -43,7 +44,7 @@ namespace ProductsApi.Repositories
             {
                 ParameterName = "@UserPassword",
                 SqlDbType = System.Data.SqlDbType.VarChar,
-                Value = user.UserPassword,
+                Value = SHA1Encoder.Encode(user.UserPassword),
                 Size = user.UserPassword.Length
             });
 
