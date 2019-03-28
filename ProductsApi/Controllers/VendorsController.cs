@@ -41,17 +41,28 @@ namespace ProductsApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult<int> Post (Vendor vendor)
+        public ActionResult<int> Post(Vendor vendor)
         {
-            int n = 1;
-            return n;
+            int id = vendorService.CreateVendor(vendor);
+            return id;
         }
+
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Vendor value)
+        public ActionResult<Vendor> Get(int id)
         {
-            int n = 1;
+            return vendorService.GetVendor(id);
+
+            if (Vendor == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(Vendor);
+            }
+
         }
 
         // DELETE api/values/5

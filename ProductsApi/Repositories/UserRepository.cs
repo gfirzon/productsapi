@@ -63,14 +63,14 @@ namespace ProductsApi.Repositories
 
             cmd.Parameters.Add(new SqlParameter
             {
-                ParameterName = "@UserId",
+                ParameterName = "@VendorId",
                 SqlDbType = System.Data.SqlDbType.Int,
                 Direction = System.Data.ParameterDirection.Output
             });
 
             cmd.ExecuteNonQuery();
 
-            int userId = Convert.ToInt32(cmd.Parameters["@UserId"].Value);
+            int userId = Convert.ToInt32(cmd.Parameters["@VendorId"].Value);
 
             cmd.Dispose();
             conn.Close();

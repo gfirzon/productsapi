@@ -10,5 +10,6 @@ namespace ProductsApi.Services
     {
         List<Vendor> GetVendorList();
         Vendor GetVendor(int id);
+        int CreateVendor(Vendor vendor);
     }
 }

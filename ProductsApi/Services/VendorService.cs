@@ -13,6 +13,11 @@ namespace ProductsApi.Services
             this.vendorRepository = vendorRepository;
         }
 
+        public int CreateVendor(Vendor vendor)
+        {
+            return vendorRepository.CreateVendor(vendor);
+        }
+
         public Vendor GetVendor(int id)
         {
             return vendorRepository.GetVendor(id);
@@ -21,6 +26,10 @@ namespace ProductsApi.Services
         public List<Vendor> GetVendorList()
         {
             return vendorRepository.GetVendorList();
+        }
+        public int UpdateVendor(Vendor vendor)
+        {
+            return vendorRepository.UpdateVendor(ID);
         }
     }
 }
