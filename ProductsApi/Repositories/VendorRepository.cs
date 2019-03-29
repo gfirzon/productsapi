@@ -12,10 +12,6 @@ namespace ProductsApi.Repositories
     public class VendorRepository : IVendorRepository
     {
         private readonly string connectionString;
-        private object dbContext;
-
-        public SqlDbType SqlDbType { get; private set; }
-        public ParameterDirection Direction { get; private set; }
 
         public VendorRepository(IConfiguration configuration)
         {
@@ -58,12 +54,12 @@ namespace ProductsApi.Repositories
             });
             cmd.ExecuteNonQuery();
 
-            int userId = Convert.ToInt32(cmd.Parameters["@UserId"].Value);
+            int vendorId = Convert.ToInt32(cmd.Parameters["@VendorId"].Value);
 
             cmd.Dispose();
             conn.Close();
 
-            return userId;
+            return vendorId;
         }
 
         public List<Vendor> GetVendorList()
@@ -119,22 +115,21 @@ namespace ProductsApi.Repositories
 
             SqlParameter param = new SqlParameter();
             param.ParameterName = "@VendorID";
-            SqlDbType = System.Data.SqlDbType.Int,
-            Direction = System.Data.ParameterDirection.Output
-
+            param.SqlDbType = System.Data.SqlDbType.Int;
+            param.Value = id;
             cmd.Parameters.Add(param);
 
             SqlDataReader reader = cmd.ExecuteReader();
 
             if (reader.Read() == true)
             {
-                int vendorID = Convert.ToInt32(reader["Vendor"]);
+                int vendorID = Convert.ToInt32(reader["VendorID"]);
                 string vendorName = reader["VendorName"].ToString();
                 string vendorPhone = reader["VendorPhone"].ToString();
 
                 vendor = new Vendor
                 {
-                    VendorID = id,
+                    VendorId = id,
                     VendorName = vendorName,
                     VendorPhone = vendorPhone,
                 };
@@ -145,21 +140,10 @@ namespace ProductsApi.Repositories
             conn.Close();
 
             return vendor;
-
         }
 
         public void UpdateVendor(Vendor vendor)
         {
-            Vendor v = dbContext.Vendor.Where(m => m.VendorID == vendor.VendorId).FirstOrDefault();
-
-            if v != null)
-
-                v.VendorId = vendor.VendorId;
-                v.VendorName = vendor.VendorName;
-                v.VendorPhone = vendor.VendorPhone;
-
-            dbContext.SaveChanges();
-
         }
     }
 

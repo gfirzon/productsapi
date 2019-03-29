@@ -47,22 +47,21 @@ namespace ProductsApi.Controllers
             return id;
         }
 
-
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public ActionResult<Vendor> Get(int id)
+        [HttpPut]
+        public void Put(Vendor vendor)
         {
-            return vendorService.GetVendor(id);
+            vendorService.UpdateVendor(vendor);
+            //return vendorService.UpdateVendor(vendor);
 
-            if (Vendor == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return Ok(Vendor);
-            }
-
+            //if (Vendor == null)
+            //{
+            //    return NotFound();
+            //}
+            //else
+            //{
+            //    return Ok(Vendor);
+            //}
         }
 
         // DELETE api/values/5

@@ -12,5 +12,6 @@ namespace ProductsApi.Services
         User GetUser(int id);
         int CreateUser(User user);
         void UpdateUser(User user);
+
     }
 }

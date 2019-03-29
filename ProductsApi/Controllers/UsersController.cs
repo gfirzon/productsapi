@@ -33,17 +33,16 @@ namespace ProductsApi.Controllers
         [HttpGet("{id}", Name = "Get")]
         public ActionResult<User> Get(int id)
         {
-            return userService.GetUser(id);
+            User user =  userService.GetUser(id);
 
-            if (User == null)
+            if (user == null)
             {
                 return NotFound();
             }
             else
             {
-                return Ok (User);
+                return Ok(user);
             }
-            //return new User { UserID = id, UserName = "Olga Kent", UserPassword = "kent.yahoo", IsActive = false };
         }
 
         // POST: api/Users
@@ -56,20 +55,22 @@ namespace ProductsApi.Controllers
         }
 
         // PUT: api/Users/5
-        [HttpPut("{id}")]
-        public void Put(int id, User user)
+        [HttpPut]
+        public ActionResult Put(User user)
         {
-            //userService.UpdateUser(id);
-            //update
-            //User[id] = value;
-        }
+            int id = user.UserID;
 
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-           // userService.
-            //User.RemoveAt(id);
+            User dbUser = userService.GetUser(id);
+
+            if (dbUser != null)
+            {
+                userService.UpdateUser(user);
+                return Ok("User updated....");
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

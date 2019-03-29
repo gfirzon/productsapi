@@ -27,9 +27,9 @@ namespace ProductsApi.Services
         {
             return vendorRepository.GetVendorList();
         }
-        public int UpdateVendor(Vendor vendor)
+        public void UpdateVendor(Vendor vendor)
         {
-            return vendorRepository.UpdateVendor(ID);
+            vendorRepository.UpdateVendor(vendor);
         }
     }
 }
