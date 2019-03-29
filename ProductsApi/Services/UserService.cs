@@ -33,7 +33,8 @@ namespace ProductsApi.Services
 
         public void UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            userRepository.UpdateUser(user);
+
         }
     }
 }

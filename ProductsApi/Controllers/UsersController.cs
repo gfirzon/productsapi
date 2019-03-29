@@ -33,17 +33,17 @@ namespace ProductsApi.Controllers
         [HttpGet("{id}", Name = "Get")]
         public ActionResult<User> Get(int id)
         {
-            return userService.GetUser(id);
+            User user =  userService.GetUser(id);
 
-            if (User == null)
+            if (user == null)
             {
                 return NotFound();
             }
             else
             {
-                return Ok (User);
+                return Ok (user);
             }
-            //return new User { UserID = id, UserName = "Olga Kent", UserPassword = "kent.yahoo", IsActive = false };
+
         }
 
         // POST: api/Users
@@ -59,17 +59,18 @@ namespace ProductsApi.Controllers
         [HttpPut("{id}")]
         public void Put(int id, User user)
         {
-            //userService.UpdateUser(id);
-            //update
-            //User[id] = value;
-        }
+            int id1 = id;
+            //User user1 = userService.UpdateUser.Where(m => m.UserId == user.UserId).FirstOrDefault();
+            userService.UpdateUser(user);
 
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-           // userService.
-            //User.RemoveAt(id);
+            //if (user1 != null)
+            //{
+            //    user1.UserName = user.UserName;
+            //    user1.UserPassword = user.UserPassword;
+            //    user1.IsActive = user.IsActive;
+            //    user1.RoleID = user.RoleID;
+            //    //userService.SaveChanges();
+            //}
         }
     }
 }

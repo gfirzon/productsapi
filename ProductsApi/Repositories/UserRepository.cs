@@ -64,7 +64,7 @@ namespace ProductsApi.Repositories
 
             cmd.Parameters.Add(new SqlParameter
             {
-                ParameterName = "@UserId",
+                ParameterName = "@UserID",
                 SqlDbType = System.Data.SqlDbType.Int,
                 Direction = System.Data.ParameterDirection.Output
             });
@@ -79,10 +79,50 @@ namespace ProductsApi.Repositories
             return userId;
         }
 
-        public User GetUser(int id)
+        public User GetUser(int userId)
         {
-            //[dbo].[sp_GetUserByID]
-            return null;
+            User user = null;
+
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = connectionString;
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = conn;
+            cmd.CommandText = "sp_GetUserByID";
+
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@UserID";
+            param.SqlDbType = System.Data.SqlDbType.Int;
+            param.Value = userId;
+
+            cmd.Parameters.Add(param);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read() == true)
+            {
+                int id = Convert.ToInt32(reader["UserID"]);
+                string userName = reader["UserName"].ToString();
+                string userPassword = reader["UserPassword"].ToString();
+                bool isActive = Convert.ToBoolean(reader["isActive"]);
+                int roleID = Convert.ToInt32(reader["RoleID"]);
+
+                user = new User
+                {
+                    UserID = id,
+                    UserName = userName,
+                    UserPassword = userPassword,
+                    IsActive = isActive,
+                    RoleID = roleID
+                };
+            }
+            reader.Close();
+            cmd.Dispose();
+            conn.Close();
+
+            return user;
         }
 
         public List<User> GetUserList()
@@ -102,7 +142,7 @@ namespace ProductsApi.Repositories
 
             while (reader.Read() == true)
             {
-                int id = Convert.ToInt32(reader["UserId"]);
+                int id = Convert.ToInt32(reader["UserID"]);
                 string userName = reader["UserName"].ToString();
                 string userPassword = reader["UserPassword"].ToString();
                 bool isActive =Convert.ToBoolean(reader["isActive"]);
@@ -127,8 +167,59 @@ namespace ProductsApi.Repositories
 
         public void UpdateUser(User user)
         {
-            //[dbo].[sp_UpdateUser]
-            throw new NotImplementedException();
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = connectionString;
+            conn.Open();
+
+            string query = @"sp_UpdateUser";
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = query;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.Add(new SqlParameter
+            {
+                ParameterName = "@UserID",
+                SqlDbType = System.Data.SqlDbType.Int,
+                Value = user.UserID
+            });
+
+
+            cmd.Parameters.Add(new SqlParameter
+            {
+                ParameterName = "@UserName",
+                SqlDbType = System.Data.SqlDbType.VarChar,
+                Value = user.UserName,
+                Size = user.UserName.Length
+            });
+
+            cmd.Parameters.Add(new SqlParameter
+            {
+                ParameterName = "@UserPassword",
+                SqlDbType = System.Data.SqlDbType.VarChar,
+                Value = user.UserPassword,
+                Size = user.UserPassword.Length
+            });
+
+            cmd.Parameters.Add(new SqlParameter
+            {
+                ParameterName = "@IsActive",
+                SqlDbType = System.Data.SqlDbType.Bit,
+                Value = user.IsActive
+            });
+
+            cmd.Parameters.Add(new SqlParameter
+            {
+                ParameterName = "@RoleID",
+                SqlDbType = System.Data.SqlDbType.Int,
+                Value = user.RoleID
+            });
+            cmd.ExecuteNonQuery();
+
+            cmd.Dispose();
+            conn.Close();
+
         }
     }
 }
