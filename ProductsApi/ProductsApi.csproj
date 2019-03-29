@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.1\ProductsApi.xml</DocumentationFile>
+    <DocumentationFile>C:\development\productsapi\ProductsApi\ProductsApi.xml</DocumentationFile>
     <WarningsAsErrors>NU1605</WarningsAsErrors>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
