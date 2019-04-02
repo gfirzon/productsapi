@@ -86,7 +86,7 @@ namespace ProductsApi.Repositories
                 Vendor vendor = new Vendor
 
                 {
-                    VendorId = id,
+                    VendorID = id,
                     VendorName = vendorName,
                     VendorPhone = vendorPhone,
 
@@ -129,7 +129,7 @@ namespace ProductsApi.Repositories
 
                 vendor = new Vendor
                 {
-                    VendorId = id,
+                    VendorID = id,
                     VendorName = vendorName,
                     VendorPhone = vendorPhone,
                 };
@@ -144,6 +144,45 @@ namespace ProductsApi.Repositories
 
         public void UpdateVendor(Vendor vendor)
         {
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = connectionString;
+            conn.Open();
+
+            string query = @"sp_UpdateVendor";
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = query;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.Add(new SqlParameter
+            {
+                ParameterName = "@VendorID",
+                SqlDbType = System.Data.SqlDbType.Int,
+                Value = vendor.VendorID
+            });
+
+            cmd.Parameters.Add(new SqlParameter
+            {
+                ParameterName = "@VendorName",
+                SqlDbType = System.Data.SqlDbType.VarChar,
+                Value = vendor.VendorName,
+                Size = vendor.VendorName.Length
+            });
+
+            cmd.Parameters.Add(new SqlParameter
+            {
+                ParameterName = "@VendorPhone",
+                SqlDbType = System.Data.SqlDbType.VarChar,
+                Value = vendor.VendorPhone,
+                Size = vendor.VendorPhone.Length
+            });
+
+            cmd.ExecuteNonQuery();
+
+            cmd.Dispose();
+            conn.Close();
+
         }
     }
 
