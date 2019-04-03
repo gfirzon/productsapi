@@ -28,12 +28,12 @@ namespace ProductsApi.Controllers
 
             return list;
         }
-        
+
         // GET: api/Users/5
         [HttpGet("{id}", Name = "Get")]
         public ActionResult<User> Get(int id)
         {
-            User user =  userService.GetUser(id);
+            User user = userService.GetUser(id);
 
             if (user == null)
             {
@@ -45,9 +45,41 @@ namespace ProductsApi.Controllers
             }
         }
 
+        // GET: api/Users/5
+        [HttpGet("GetUserIDWithRoleName")]
+        public ActionResult<User> GetUserIDWithRoleName(int id)
+        {
+            //[dbo].[sp_GetUserIDWithRoleName]
+
+            //UserViewModel user = userService.GetUserIDWithRoleName(id);
+
+            User user = userService.GetUser(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(user);
+            }
+        }
+
+        // GET: api/Users/GetUsersListWithRoleName
+        [HttpGet("GetUsersListWithRoleName")]
+        public ActionResult<IEnumerable<User>> GetUsersListWithRoleName()
+        {
+            //[dbo].[sp_GetUsersListWithRoleName]
+
+            //List<User> list = userService.GetUsersListWithRoleName();
+            List<User> list = userService.GetUserList();
+
+            return list;
+        }
+
         // POST: api/Users
         [HttpPost]
-        public ActionResult<int> Post (User user)
+        public ActionResult<int> Post(User user)
         {
             int id = userService.CreateUser(user);
 
