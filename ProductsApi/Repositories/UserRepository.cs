@@ -145,9 +145,9 @@ namespace ProductsApi.Repositories
                 int id = Convert.ToInt32(reader["UserID"]);
                 string userName = reader["UserName"].ToString();
                 string userPassword = reader["UserPassword"].ToString();
-                bool isActive =Convert.ToBoolean(reader["isActive"]);
+                bool isActive = Convert.ToBoolean(reader["isActive"]);
                 int roleID = Convert.ToInt32(reader["RoleID"]);
-               
+
                 User user = new User
                 {
                     UserID = id,
@@ -221,5 +221,97 @@ namespace ProductsApi.Repositories
             conn.Close();
 
         }
+
+        public List<UserViewModel> GetUserViewModelList()
+        {
+            List<UserViewModel> list = new List<UserViewModel>();
+
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = connectionString;
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = conn;
+            cmd.CommandText = "sp_GetUsersListWithRoleName";
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read() == true)
+            {
+                int id = Convert.ToInt32(reader["UserID"]);
+                string userName = reader["UserName"].ToString();
+                string userPassword = reader["UserPassword"].ToString();
+                bool isActive = Convert.ToBoolean(reader["isActive"]);
+                int roleID = Convert.ToInt32(reader["RoleID"]);
+                string roleName = reader["RoleName"].ToString();
+
+                UserViewModel userViewModel = new UserViewModel
+                {
+                    UserID = id,
+                    UserName = userName,
+                    UserPassword = userPassword,
+                    IsActive = isActive,
+                    RoleID = roleID,
+                    RoleName = roleName
+                };
+                list.Add(userViewModel);
+            }
+            reader.Close();
+            cmd.Dispose();
+            conn.Close();
+
+            return list;
+        }
+
+
+        public UserViewModel GetUserViewModel(int userID)
+        {
+            UserViewModel userViewModel = null;
+
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = connectionString;
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = conn;
+            cmd.CommandText = "sp_GetUserIDWithRoleName";
+
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@UserID";
+            param.SqlDbType = System.Data.SqlDbType.Int;
+            param.Value = userID;
+
+            cmd.Parameters.Add(param);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read() == true)
+            {
+                int id = Convert.ToInt32(reader["UserID"]);
+                string userName = reader["UserName"].ToString();
+                string userPassword = reader["UserPassword"].ToString();
+                bool isActive = Convert.ToBoolean(reader["isActive"]);
+                int roleID = Convert.ToInt32(reader["RoleID"]);
+                string roleName = reader["RoleName"].ToString();
+
+                userViewModel = new UserViewModel
+                {
+                    UserID = id,
+                    UserName = userName,
+                    UserPassword = userPassword,
+                    IsActive = isActive,
+                    RoleID = roleID,
+                    RoleName = roleName
+                };
+            }
+            reader.Close();
+            cmd.Dispose();
+            conn.Close();
+
+            return userViewModel;
+        }
     }
 }
+

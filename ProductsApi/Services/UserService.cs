@@ -35,5 +35,15 @@ namespace ProductsApi.Services
         {
             userRepository.UpdateUser(user);
         }
+
+        public List<UserViewModel> GetUserViewModelList()
+        {
+            return userRepository.GetUserViewModelList();
+        }
+
+        public UserViewModel GetUserViewModel(int id)
+        {
+            return userRepository.GetUserViewModel(id);
+        }
     }
 }
