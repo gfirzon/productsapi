@@ -12,6 +12,9 @@ namespace ProductsApi.Services
         User GetUser(int id);
         int CreateUser(User user);
         void UpdateUser(User user);
+        List<UserViewModel> GetUserViewModelList();
 
+        UserViewModel GetUserViewModel(int id);
     }
 }
+
