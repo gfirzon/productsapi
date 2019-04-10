@@ -47,14 +47,11 @@ namespace ProductsApi.Controllers
 
         // GET: api/Users/5
         [HttpGet("GetUserIDWithRoleName")]
-        public ActionResult<User> GetUserIDWithRoleName(int id)
+        public ActionResult<UserViewModel> GetUserIDWithRoleName(int id)
         {
             //[dbo].[sp_GetUserIDWithRoleName]
 
-            //UserViewModel user = userService.GetUserIDWithRoleName(id);
-
-            User user = userService.GetUser(id);
-
+            UserViewModel user = userService.GetUserViewModel(id);
             if (user == null)
             {
                 return NotFound();
@@ -67,12 +64,12 @@ namespace ProductsApi.Controllers
 
         // GET: api/Users/GetUsersListWithRoleName
         [HttpGet("GetUsersListWithRoleName")]
-        public ActionResult<IEnumerable<User>> GetUsersListWithRoleName()
+        public ActionResult<IEnumerable<UserViewModel>> GetUsersListWithRoleName()
         {
             //[dbo].[sp_GetUsersListWithRoleName]
 
-            //List<User> list = userService.GetUsersListWithRoleName();
-            List<User> list = userService.GetUserList();
+            List<UserViewModel> list = userService.GetUserViewModelList();
+            //List<User> list = userService.GetUserList();
 
             return list;
         }

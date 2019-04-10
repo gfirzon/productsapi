@@ -16,7 +16,6 @@ namespace ProductsApi.Repositories
         public UserRepository(IConfiguration configuration)
         {
             connectionString = configuration.GetSection("Data").GetSection("ConnectionString").Value;
-
         }
 
         public int CreateUser(User user)
