@@ -75,8 +75,10 @@ namespace ProductsApi
 
             services.AddScoped<IVendorRepository, VendorRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IVendorService, VendorService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProductService, ProductService>();
 
             services.AddScoped<ITheirService, TheirService>();
             services.AddScoped<IMyService, MyService>();
