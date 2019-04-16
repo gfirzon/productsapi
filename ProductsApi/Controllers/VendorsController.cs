@@ -8,6 +8,7 @@ using System.Data;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 using ProductsApi.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace ProductsApi.Controllers
 {
@@ -34,9 +35,27 @@ namespace ProductsApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<Vendor> Get(int id)
         {
-            Vendor vendor = vendorService.GetVendor(id);
-            return vendor;
-            //return new Vendor { VendorId = id, VendorName = "CCC", Phone = "0000000000" };
+            ActionResult actionResult = null;
+
+            try
+            {
+                Vendor vendor = vendorService.GetVendor(id);
+                if (vendor != null)
+                {
+                    actionResult = Ok(vendor);
+                }
+                else
+                {
+                    actionResult = NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = $"Unable to process update request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+            }
+
+            return actionResult;
         }
 
         // POST api/values

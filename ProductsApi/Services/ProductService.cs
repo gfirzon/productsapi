@@ -31,9 +31,24 @@ namespace ProductsApi.Services
             return productRepository.GetProductList();
         }
         
-        public void UpdateProduct(Product product)
+        /// <summary>
+        /// Updates the product if found
+        /// </summary>
+        /// <param name="product">new data for a given product, ProductId is used to find... </param>
+        /// <returns>true if found and updated, false if not found</returns>
+        public bool UpdateProduct(Product product)
         {
-            productRepository.UpdateProduct(product);
+            bool result = false;
+
+            Product dbProduct = GetProduct(product.ProductID);
+
+            if (dbProduct != null)
+            {
+                productRepository.UpdateProduct(product);
+                result = true;
+            }
+
+            return result;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace ProductsApi.Controllers
         {
             this.productService = productService;
         }
+
         // GET: api/Products
         [HttpGet]
         public ActionResult <IEnumerable<Product>> Get()
@@ -28,7 +29,7 @@ namespace ProductsApi.Controllers
         }
 
         // GET: api/Products/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public ActionResult<Product> Get(int id)
         {
             Product product = productService.GetProduct(id);
@@ -53,22 +54,32 @@ namespace ProductsApi.Controllers
         }
 
         // PUT: api/Products/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public ActionResult Put(Product product)
         {
-            int id = product.ProductID;
+            ActionResult actionResult = null;
 
-            Product dbProduct = productService.GetProduct(id);
+            try
+            {
+                bool isUpdated = productService.UpdateProduct(product);
 
-            if (dbProduct != null)
-            {
-                productService.UpdateProduct(product);
-                return Ok("Product updated....");
+                if (isUpdated == true)
+                {
+                    actionResult = Ok("Product updated....");
+                }
+                else
+                {
+                    actionResult = NotFound();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                //string message = string.Format("Unable to process update request: {0}", ex.Message);
+                string message = $"Unable to process update request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
             }
+
+            return actionResult;
         }
     }
 }
