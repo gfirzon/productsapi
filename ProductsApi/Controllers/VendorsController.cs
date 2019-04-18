@@ -63,12 +63,5 @@ namespace ProductsApi.Controllers
             //    return Ok(Vendor);
             //}
         }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            int n = 1;
-        }
     }
 }

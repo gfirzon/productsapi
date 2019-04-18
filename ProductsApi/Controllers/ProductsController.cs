@@ -21,14 +21,14 @@ namespace ProductsApi.Controllers
         }
         // GET: api/Products
         [HttpGet]
-        public ActionResult <IEnumerable<Product>> Get()
+        public ActionResult<IEnumerable<Product>> Get()
         {
             List<Product> list = productService.GetProductList();
             return list;
         }
 
         // GET: api/Products/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public ActionResult<Product> Get(int id)
         {
             Product product = productService.GetProduct(id);
@@ -53,7 +53,7 @@ namespace ProductsApi.Controllers
         }
 
         // PUT: api/Products/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public ActionResult Put(Product product)
         {
             int id = product.ProductID;
