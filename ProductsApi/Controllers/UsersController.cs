@@ -30,7 +30,8 @@ namespace ProductsApi.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
+        //[HttpGet("{id}", Name = "Get")]
         public ActionResult<User> Get(int id)
         {
             User user = userService.GetUser(id);
