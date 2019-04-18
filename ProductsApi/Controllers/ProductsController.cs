@@ -24,33 +24,83 @@ namespace ProductsApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Product>> Get()
         {
-            List<Product> list = productService.GetProductList();
-            return list;
+            ActionResult actionResult = null;
+
+            try
+            {
+                List<Product> list = productService.GetProductList();
+                if (list != null)
+                {
+                    actionResult = Ok(list);
+                }
+                else
+                {
+                    actionResult = NotFound();
+                }
+            }
+            catch (Exception ex) 
+            {
+                string message = $"Unable to process update request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+            }
+            return actionResult;
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
         public ActionResult<Product> Get(int id)
         {
-            Product product = productService.GetProduct(id);
+            ActionResult actionResult = null;
 
-            if (product == null)
+            try
             {
-                return NotFound();
+                Product product = productService.GetProduct(id);
+
+                if (product != null)
+                {
+                    actionResult = Ok(product);
+                }
+                else
+                {
+                    actionResult = NotFound();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Ok(product);
+                string message = $"Unable to process update request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
             }
+
+            return actionResult;
+
         }
 
         // POST: api/Products
         [HttpPost]
         public ActionResult<int> Post(Product product)
         {
-            int id = productService.CreateProduct(product);
+            ActionResult actionResult = null;
 
-            return id;
+            try
+            {
+                int id = productService.CreateProduct(product);
+
+                if (id != 0)
+                {
+                    actionResult = Ok(product);
+                }
+                else
+                {
+                    actionResult = NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = $"Unable to process update request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+            }
+
+            return actionResult;
         }
 
         // PUT: api/Products/5
