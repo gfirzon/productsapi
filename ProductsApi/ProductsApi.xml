@@ -4,5 +4,33 @@
         <name>ProductsApi</name>
     </assembly>
     <members>
+        <member name="M:ProductsApi.Services.IProductService.UpdateProduct(ProductsApi.Models.Product)">
+            <summary>
+            Updates the product if found
+            </summary>
+            <param name="product">new data for a given product, ProductId is used to find... </param>
+            <returns>true if found and updated, false if not found</returns>
+        </member>
+        <member name="M:ProductsApi.Services.IVendorService.UpdateVendor(ProductsApi.Models.Vendor)">
+            <summary>
+            Updates the vendor if found
+            </summary>
+            <param name="vendor">new data for a given vendor, VendorId is used to find... </param>
+            <returns>true if found and updated, false if not found</returns>
+        </member>
+        <member name="M:ProductsApi.Services.ProductService.UpdateProduct(ProductsApi.Models.Product)">
+            <summary>
+            Updates the product if found
+            </summary>
+            <param name="product">new data for a given product, ProductId is used to find... </param>
+            <returns>true if found and updated, false if not found</returns>
+        </member>
+        <member name="M:ProductsApi.Services.VendorService.UpdateVendor(ProductsApi.Models.Vendor)">
+            <summary>
+            Updates the vendors if found
+            </summary>
+            <param name="vendor">new data for a given vendor, VendorId is used to find... </param>
+            <returns>true if found and updated, false if not found</returns>
+        </member>
     </members>
 </doc>
