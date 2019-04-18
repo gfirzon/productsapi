@@ -23,13 +23,34 @@ namespace ProductsApi.Services
             return vendorRepository.GetVendor(id);
         }
 
+
         public List<Vendor> GetVendorList()
         {
             return vendorRepository.GetVendorList();
         }
-        public void UpdateVendor(Vendor vendor)
+        //public void UpdateVendor(Vendor vendor)
+        //{
+        //    vendorRepository.UpdateVendor(vendor);
+        //}
+
+        /// <summary>
+        /// Updates the vendors if found
+        /// </summary>
+        /// <param name="vendor">new data for a given vendor, VendorId is used to find... </param>
+        /// <returns>true if found and updated, false if not found</returns>
+        public bool UpdateVendor(Vendor vendor)
         {
-            vendorRepository.UpdateVendor(vendor);
+            bool result = false;
+
+            Vendor dblVendor = GetVendor(vendor.VendorID);
+
+            if (dblVendor != null)
+            {
+                vendorRepository.UpdateVendor(vendor);
+                result = true;
+            }
+
+            return result;
         }
     }
 }

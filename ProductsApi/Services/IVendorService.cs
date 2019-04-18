@@ -11,6 +11,13 @@ namespace ProductsApi.Services
         List<Vendor> GetVendorList();
         Vendor GetVendor(int id);
         int CreateVendor(Vendor vendor);
-        void UpdateVendor(Vendor vendor);
+
+        /// <summary>
+        /// Updates the vendor if found
+        /// </summary>
+        /// <param name="vendor">new data for a given vendor, VendorId is used to find... </param>
+        /// <returns>true if found and updated, false if not found</returns>
+        bool UpdateVendor(Vendor vendor);
+
     }
 }
