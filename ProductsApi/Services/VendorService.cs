@@ -23,15 +23,10 @@ namespace ProductsApi.Services
             return vendorRepository.GetVendor(id);
         }
 
-
         public List<Vendor> GetVendorList()
         {
             return vendorRepository.GetVendorList();
         }
-        //public void UpdateVendor(Vendor vendor)
-        //{
-        //    vendorRepository.UpdateVendor(vendor);
-        //}
 
         /// <summary>
         /// Updates the vendors if found

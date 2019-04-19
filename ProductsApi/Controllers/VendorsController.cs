@@ -25,7 +25,7 @@ namespace ProductsApi.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<Vendor>> Get()
+        public ActionResult Get()
         {
             ActionResult actionResult = null;
 
@@ -36,11 +36,6 @@ namespace ProductsApi.Controllers
                 {
                     actionResult = Ok(list);
                 }
-                else
-                {
-                    actionResult = NotFound();
-                }
-
             }
             catch (Exception ex)
             {
@@ -53,7 +48,7 @@ namespace ProductsApi.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<Vendor> Get(int id)
+        public ActionResult Get(int id)
         {
             ActionResult actionResult = null;
 
@@ -80,7 +75,7 @@ namespace ProductsApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult<int> Post(Vendor vendor)
+        public ActionResult Post(Vendor vendor)
         {
             ActionResult actionResult = null;
 
@@ -90,8 +85,7 @@ namespace ProductsApi.Controllers
 
                 if (vendor != null)
                 {
-                    actionResult = Ok(vendor);
-                    return id;
+                    actionResult = Ok(id);
                 }
                 else
                 {
@@ -116,10 +110,10 @@ namespace ProductsApi.Controllers
 
             try
             {
-                vendorService.UpdateVendor(vendor);
-                if (vendor != null)
+                bool isUpdated = vendorService.UpdateVendor(vendor);
+                if (isUpdated == true)
                 {
-                    actionResult = Ok(vendor);
+                    actionResult = Ok();
                 }
                 else
                 {
