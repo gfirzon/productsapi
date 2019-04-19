@@ -31,9 +31,20 @@ namespace ProductsApi.Services
             return userRepository.GetUserList();
         }
 
-        public void UpdateUser(User user)
+        public bool UpdateUser(User user)
         {
-            userRepository.UpdateUser(user);
+            bool result = false;
+
+            User dbUser = GetUser(user.UserID);
+
+            if (dbUser != null)
+            {
+                userRepository.UpdateUser(user);
+                result = true;
+            }
+
+            return result;
+
         }
 
         public List<UserViewModel> GetUserViewModelList()

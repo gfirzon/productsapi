@@ -28,7 +28,8 @@ namespace ProductsApi.Services
 
         public List<Product> GetProductList()
         {
-            return productRepository.GetProductList();
+           return productRepository.GetProductList();
+           
         }
         
         /// <summary>

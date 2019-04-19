@@ -24,9 +24,28 @@ namespace ProductsApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<User>> Get()
         {
-            List<User> list = userService.GetUserList();
+            ActionResult actionResult = null;
 
-            return list;
+            try
+            {
+                List<User> list = userService.GetUserList();
+                if (list != null)
+                {
+                    actionResult = Ok(list);
+                }
+                else
+                {
+                    actionResult = NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = $"Unable to process update request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+
+            }
+
+            return actionResult;
         }
 
         // GET: api/Users/5
@@ -34,73 +53,139 @@ namespace ProductsApi.Controllers
         //[HttpGet("{id}", Name = "Get")]
         public ActionResult<User> Get(int id)
         {
-            User user = userService.GetUser(id);
+            ActionResult actionResult = null;
 
-            if (user == null)
+            try
             {
-                return NotFound();
+                User user = userService.GetUser(id);
+
+                if (user != null)
+                {
+                    actionResult = Ok(user);
+                }
+                else
+                {
+                    actionResult = NotFound();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Ok(user);
+                string message = $"Unable to process update request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
             }
+
+            return actionResult;
         }
 
         // GET: api/Users/5
         [HttpGet("GetUserIDWithRoleName")]
         public ActionResult<UserViewModel> GetUserIDWithRoleName(int id)
         {
-            //[dbo].[sp_GetUserIDWithRoleName]
+            ActionResult actionResult = null;
 
-            UserViewModel user = userService.GetUserViewModel(id);
-            if (user == null)
+            try
             {
-                return NotFound();
+                UserViewModel user = userService.GetUserViewModel(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(user);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Ok(user);
+                string message = $"Unable to process update request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
             }
+
+            return actionResult;
         }
 
         // GET: api/Users/GetUsersListWithRoleName
         [HttpGet("GetUsersListWithRoleName")]
         public ActionResult<IEnumerable<UserViewModel>> GetUsersListWithRoleName()
         {
-            //[dbo].[sp_GetUsersListWithRoleName]
+            ActionResult actionResult = null;
 
-            List<UserViewModel> list = userService.GetUserViewModelList();
-            //List<User> list = userService.GetUserList();
+            try
+            {
+                List<UserViewModel> list = userService.GetUserViewModelList();
+                if (list != null)
+                {
+                    actionResult = Ok(list);
+                }
+                else
+                {
+                    actionResult = NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = $"Unable to process update request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+            }
 
-            return list;
+            return actionResult;
         }
 
         // POST: api/Users
         [HttpPost]
         public ActionResult<int> Post(User user)
         {
-            int id = userService.CreateUser(user);
+            ActionResult actionResult = null;
 
-            return id;
+            try
+            {
+                int id = userService.CreateUser(user);
+
+                if (id != 0)
+                {
+                    actionResult = Ok(user);
+                }
+                else
+                {
+                    actionResult = NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = $"Unable to process update request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+            }
+
+            return actionResult;
         }
 
         // PUT: api/Users/5
         [HttpPut]
         public ActionResult Put(User user)
         {
-            int id = user.UserID;
+            ActionResult actionResult = null;
 
-            User dbUser = userService.GetUser(id);
+            try
+            {
+                bool isUpdated = userService.UpdateUser(user);
 
-            if (dbUser != null)
-            {
-                userService.UpdateUser(user);
-                return Ok("User updated....");
+                if (isUpdated == true)
+                {
+                    actionResult = Ok("Product updated....");
+                }
+                else
+                {
+                    actionResult = NotFound();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                //string message = string.Format("Unable to process update request: {0}", ex.Message);
+                string message = $"Unable to process update request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
             }
+
+            return actionResult;
         }
     }
 }
