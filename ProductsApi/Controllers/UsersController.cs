@@ -22,7 +22,7 @@ namespace ProductsApi.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public ActionResult<IEnumerable<User>> Get()
+        public ActionResult Get()
         {
             ActionResult actionResult = null;
 
@@ -33,25 +33,19 @@ namespace ProductsApi.Controllers
                 {
                     actionResult = Ok(list);
                 }
-                else
-                {
-                    actionResult = NotFound();
-                }
             }
             catch (Exception ex)
             {
                 string message = $"Unable to process update request: {ex.Message}";
                 actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
-
             }
 
             return actionResult;
         }
 
-        // GET: api/Users/5
         [HttpGet("{id}")]
         //[HttpGet("{id}", Name = "Get")]
-        public ActionResult<User> Get(int id)
+        public ActionResult Get(int id)
         {
             ActionResult actionResult = null;
 
@@ -79,7 +73,7 @@ namespace ProductsApi.Controllers
 
         // GET: api/Users/5
         [HttpGet("GetUserIDWithRoleName")]
-        public ActionResult<UserViewModel> GetUserIDWithRoleName(int id)
+        public ActionResult GetUserIDWithRoleName(int id)
         {
             ActionResult actionResult = null;
 
@@ -106,7 +100,7 @@ namespace ProductsApi.Controllers
 
         // GET: api/Users/GetUsersListWithRoleName
         [HttpGet("GetUsersListWithRoleName")]
-        public ActionResult<IEnumerable<UserViewModel>> GetUsersListWithRoleName()
+        public ActionResult GetUsersListWithRoleName()
         {
             ActionResult actionResult = null;
 
@@ -133,7 +127,7 @@ namespace ProductsApi.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public ActionResult<int> Post(User user)
+        public ActionResult Post(User user)
         {
             ActionResult actionResult = null;
 
@@ -143,7 +137,7 @@ namespace ProductsApi.Controllers
 
                 if (id != 0)
                 {
-                    actionResult = Ok(user);
+                    actionResult = Ok(id);
                 }
                 else
                 {
@@ -171,7 +165,7 @@ namespace ProductsApi.Controllers
 
                 if (isUpdated == true)
                 {
-                    actionResult = Ok("Product updated....");
+                    actionResult = Ok();
                 }
                 else
                 {

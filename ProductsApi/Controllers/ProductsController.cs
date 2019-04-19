@@ -22,20 +22,17 @@ namespace ProductsApi.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> Get()
+        public ActionResult Get()
         {
             ActionResult actionResult = null;
 
             try
             {
                 List<Product> list = productService.GetProductList();
+
                 if (list != null)
                 {
                     actionResult = Ok(list);
-                }
-                else
-                {
-                    actionResult = NotFound();
                 }
             }
             catch (Exception ex) 
@@ -48,7 +45,7 @@ namespace ProductsApi.Controllers
 
         // GET: api/Products/5
         [HttpGet("{id}")]
-        public ActionResult<Product> Get(int id)
+        public ActionResult Get(int id)
         {
             ActionResult actionResult = null;
 
@@ -77,7 +74,7 @@ namespace ProductsApi.Controllers
 
         // POST: api/Products
         [HttpPost]
-        public ActionResult<int> Post(Product product)
+        public ActionResult Post(Product product)
         {
             ActionResult actionResult = null;
 
@@ -87,11 +84,7 @@ namespace ProductsApi.Controllers
 
                 if (id != 0)
                 {
-                    actionResult = Ok(product);
-                }
-                else
-                {
-                    actionResult = NotFound();
+                    actionResult = Ok(id);
                 }
             }
             catch (Exception ex)
@@ -103,7 +96,6 @@ namespace ProductsApi.Controllers
             return actionResult;
         }
 
-        // PUT: api/Products/5
         [HttpPut]
         public ActionResult Put(Product product)
         {
