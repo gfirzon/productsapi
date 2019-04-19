@@ -25,15 +25,30 @@ namespace ProductsApi.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<Vendor>> Get()
+        public ActionResult Get()
         {
-            List<Vendor> list = vendorService.GetVendorList();
-            return list;
+            ActionResult actionResult = null;
+
+            try
+            {
+                List<Vendor> list = vendorService.GetVendorList();
+                if (list != null)
+                {
+                    actionResult = Ok(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = $"Unable to process GetVendor request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+            }
+
+            return actionResult;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<Vendor> Get(int id)
+        public ActionResult Get(int id)
         {
             ActionResult actionResult = null;
 
@@ -60,27 +75,58 @@ namespace ProductsApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult<int> Post(Vendor vendor)
+        public ActionResult Post(Vendor vendor)
         {
-            int id = vendorService.CreateVendor(vendor);
-            return id;
+            ActionResult actionResult = null;
+
+            try
+            {
+                int id = vendorService.CreateVendor(vendor);
+
+                if (vendor != null)
+                {
+                    actionResult = Ok(id);
+                }
+                else
+                {
+                    actionResult = NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = $"Unable to process Create Vendor request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+            }
+
+            return actionResult;
         }
+
 
         // PUT api/values/5
         [HttpPut]
-        public void Put(Vendor vendor)
+        public ActionResult Put(Vendor vendor)
         {
-            vendorService.UpdateVendor(vendor);
-            //return vendorService.UpdateVendor(vendor);
+            ActionResult actionResult = null;
 
-            //if (Vendor == null)
-            //{
-            //    return NotFound();
-            //}
-            //else
-            //{
-            //    return Ok(Vendor);
-            //}
+            try
+            {
+                bool isUpdated = vendorService.UpdateVendor(vendor);
+                if (isUpdated == true)
+                {
+                    actionResult = Ok();
+                }
+                else
+                {
+                    actionResult = NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = $"Unable to process Update Vendor request: {ex.Message}";
+                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+            }
+
+            return actionResult;
         }
     }
 }
