@@ -199,7 +199,7 @@ namespace ProductTests.ControllerTests
         }
 
         [Fact]
-        public void foo()
+        public void Foo()
         {
             //Arrange
             string n = "abc";
