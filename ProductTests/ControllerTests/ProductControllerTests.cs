@@ -95,32 +95,24 @@ namespace ProductTests.ControllerTests
         {
             //Arrange
 
-            //IProductService productService = null;
+            Mock<IProductService> mockService = new Mock<IProductService>();
 
-            //productService = new MockProductService();
+            mockService.Setup(m => m.GetProductList())
+           .Throws(new Exception("error"));
 
-           // Mock<IProductService> mockService = new Mock<IProductService>();
-           // mockService.Setup(m => m.GetProductList(It.IsAny<List<Product>>()
-           //)).Throws(new Exception("error"));
+            ProductsController controller = new ProductsController(mockService.Object);
 
-            //IProductService productService = mockService.Object;
+            //Act
 
-            //ProductsController controller = new ProductsController(productService);
+            ActionResult actionResult = controller.Get();
 
-            ////Act
+            //Asserts
 
-            //ActionResult actionResult = controller.Get();
-
-            ////Asserts
-
-            //Assert.NotNull(actionResult);
-            //var result = Assert.IsType<ObjectResult>(actionResult);
-
-            //List<Product> list = result.Value as List<Product>;
-            //Assert.NotNull(list);
-            //Assert.Equal(500, result.StatusCode);
-
+            Assert.NotNull(actionResult);
+            var result = Assert.IsType<ObjectResult>(actionResult);
+            Assert.Equal(500, result.StatusCode);
         }
+
         [Fact]
         public void Get_Returns_Ok_When_All_Valid()
         {

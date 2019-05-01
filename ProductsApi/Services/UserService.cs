@@ -23,7 +23,8 @@ namespace ProductsApi.Services
 
         public User GetUser(int id)
         {
-            return userRepository.GetUser(id);
+            User user = userRepository.GetUser(id);
+            return user;
         }
 
         public List<User> GetUserList()
