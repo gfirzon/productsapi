@@ -18,7 +18,8 @@ namespace ProductsApi.Services
 
         public int CreateUser(User user)
         {
-            return userRepository.CreateUser(user);
+            int id = userRepository.CreateUser(user);
+            return id;
         }
 
         public User GetUser(int id)

@@ -61,28 +61,21 @@ namespace ProductTests.ServiceTests
             // Asserts
             Assert.Null(user);
         }
+
         [Fact]
         public void CreateUser_Returns_New_Id_When_Created()
         {
             // Arrange
-            int id = int.MaxValue;
-            var user = new User
-            {
-                UserID = 10,
-                RoleID = 1,
-                IsActive = true,
-                UserName = "lala@lala.com",
-                UserPassword = "lalala"
-            };
+            int expectedId = int.MaxValue;
+            var user = new User { };
 
-            mockRepository.Setup(m => m.CreateUser(user)).Returns(id);
+            mockRepository.Setup(m => m.CreateUser(user)).Returns(expectedId);
 
             // Act
-            id = service.CreateUser(user);
+            int actualId  = service.CreateUser(user);
 
             // Asserts
-            Assert.NotNull(user);
-            Assert.Equal(10, user.UserID);
+            Assert.Equal(expectedId, actualId);
         }
         [Fact]
         public void GetAll_Returns_UserList_When_All_Valid()
@@ -99,45 +92,64 @@ namespace ProductTests.ServiceTests
         }
 
         [Fact]
-        public void UpdateUser_Returns_true_When_dbUser_Not_Null()
+        public void UpdateUser_Returns_True_When_UserFound()
         {
             // Arrange
-            bool result = false;
-          
-            var user = new User
-            {
-                UserID = 12,
-                RoleID = 3,
-                IsActive = true,
-                UserName = "pa@gmail.com",
-                UserPassword = "Polya"
-            };
+            var user = new User { };
 
-            User dbUser = new User();
-            dbUser = service.GetUser(dbUser.UserID);
-            mockRepository.Setup(m => m.UpdateUser(dbUser));
+            mockRepository.Setup(m => m.GetUser(
+                It.IsAny<int>()
+                )).Returns(user);
+
+            mockRepository.Setup(m => m.UpdateUser(
+                It.IsAny<User>()
+                ));
 
             // Act
-            result = service.UpdateUser(user);
+            bool result = service.UpdateUser(user);
+
+            // Asserts
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void UpdateUser_Returns_False_When_UserNotFound()
+        {
+            // Arrange
+            var user = new User { };
+            User u = null;
+
+            mockRepository.Setup(m => m.GetUser(
+                It.IsAny<int>()
+                )).Returns(u);
+
+            mockRepository.Setup(m => m.UpdateUser(
+                It.IsAny<User>()
+                ));
+
+            // Act
+            bool result = service.UpdateUser(user);
 
             // Asserts
             Assert.False(result);
         }
+
         [Fact]
         public void GetAll_Returns_ViewModelList_When_All_Valid()
         {
             // Arrange
             List<UserViewModel> list = new List<UserViewModel>();
-            mockRepository.Setup(m => m.GetUserViewModelList()).Returns(list);
+            mockRepository.Setup(m => m.GetUserViewModelList(
+                )).Returns(list);
 
             // Act
-            list = service.GetUserViewModelList();
+            List<UserViewModel> actualList = service.GetUserViewModelList();
 
             // Asserts
             Assert.NotNull(list);
         }
         [Fact]
-        public void GetUserViewModelList_Returns_UserViewModel_When_Found()
+        public void GetUserViewModel_Returns_UserViewModel_When_Found()
         {
             // Arrange
             int id = int.MaxValue;
@@ -150,12 +162,13 @@ namespace ProductTests.ServiceTests
                 });
 
             // Act
-            UserViewModel userView = service.GetUserViewModel(id);
+            UserViewModel model = service.GetUserViewModel(id);
 
             // Asserts
-            Assert.NotNull(userView);
-            Assert.NotNull(userView.UserName);
+            Assert.NotNull(model);
+            Assert.Equal("AAA", model.UserName);
         }
+
         [Fact]
         public void GetUserViewModel_Returns_Null_When_NotFound()
         {
@@ -169,10 +182,10 @@ namespace ProductTests.ServiceTests
                 )).Returns(repoUser);
 
             // Act
-            UserViewModel userView = service.GetUserViewModel(id);
+            UserViewModel model = service.GetUserViewModel(id);
 
             // Asserts
-            Assert.Null(userView);
+            Assert.Null(model);
         }
     }
 }

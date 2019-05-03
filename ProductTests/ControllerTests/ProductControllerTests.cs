@@ -18,29 +18,6 @@ namespace ProductTests.ControllerTests
         {
             //Arrange
 
-            IProductService productService = null;
-
-            productService = new MockProductService();
-
-            ProductsController controller = new ProductsController(productService);
-
-            //Act
-
-            ActionResult actionResult = controller.Get();
-
-            //Asserts
-
-            Assert.NotNull(actionResult);
-            var result = Assert.IsType<OkObjectResult>(actionResult);
-
-            List<Product> list = result.Value as List<Product>;
-            Assert.Equal(3, list.Count);
-        }
-        [Fact]
-        public void GetAll_Returns_Ok_When_All_Valid_Moq()
-        {
-            //Arrange
-
             var productList = new List<Product>{
                 new Product{
                     ProductID = 1,

@@ -11,34 +11,10 @@ using Xunit;
 
 namespace ProductTests.ControllerTests
 {
-    public class VendoControllersTests
+    public class VendorControllersTests
     {
         [Fact]
         public void GetAll_Returns_Ok_When_All_Valid()
-        {
-            //Arrange
-
-            IVendorService vendorService = null;
-
-            vendorService = new MockVendorService();
-
-            VendorsController controller = new VendorsController(vendorService);
-
-            //Act
-
-            ActionResult actionResult = controller.Get();
-
-            //Asserts
-
-            Assert.NotNull(actionResult);
-            var result = Assert.IsType<OkObjectResult>(actionResult);
-
-            List<Vendor> list = result.Value as List<Vendor>;
-            Assert.Equal(3, list.Count);
-        }
-
-        [Fact]
-        public void GetAll_Returns_Ok_When_All_Valid_Moq()
         {
             //Arrange
 
@@ -72,7 +48,7 @@ namespace ProductTests.ControllerTests
             var result = Assert.IsType<OkObjectResult>(actionResult);
 
             List<Vendor> list = result.Value as List<Vendor>;
-            Assert.Equal(3, list.Count);
+            Assert.Equal(2, list.Count);
         }
 
         [Fact]
@@ -102,10 +78,12 @@ namespace ProductTests.ControllerTests
         public void Get_Returns_Ok_When_All_Valid()
         {
             //Arrange
+            int vendorId = 23;
+
             //-------------------------------------
             var vendor = new Vendor
             {
-                VendorID = 3,
+                VendorID = vendorId,
                 VendorName = "hehehe",
                 VendorPhone = "2223334455"
             };
@@ -134,7 +112,7 @@ namespace ProductTests.ControllerTests
 
             Vendor vendorResult = result.Value as Vendor;
             Assert.NotNull(vendorResult);
-            Assert.Equal(4, vendor.VendorID);
+            Assert.Equal(vendorId, vendor.VendorID);
         }
 
         [Fact]
