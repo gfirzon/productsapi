@@ -77,6 +77,7 @@ namespace ProductTests.ServiceTests
             // Asserts
             Assert.Equal(expectedId, actualId);
         }
+
         [Fact]
         public void GetAll_Returns_UserList_When_All_Valid()
         {

@@ -13,6 +13,15 @@ namespace ProductTests.ControllerTests
 {
     public class ProductControllerTests
     {
+        private readonly ProductsController controller = null;
+        private readonly Mock<IProductService> mockService = null;
+
+        public ProductControllerTests()
+        {
+            mockService = new Mock<IProductService>();
+            controller = new ProductsController(mockService.Object);
+        }
+
         [Fact]
         public void GetAll_Returns_Ok_When_All_Valid()
         {
@@ -48,12 +57,7 @@ namespace ProductTests.ControllerTests
                 }
             };
 
-            Mock<IProductService> mockService = new Mock<IProductService>();
             mockService.Setup(m => m.GetProductList()).Returns(productList);
-
-            IProductService productService = mockService.Object;
-
-            ProductsController controller = new ProductsController(productService);
 
             //Act
 
@@ -67,17 +71,14 @@ namespace ProductTests.ControllerTests
             List<Product> list = result.Value as List<Product>;
             Assert.Equal(3, list.Count);
         }
+
         [Fact]
         public void GetAll_Returns_500_When_Exception()
         {
             //Arrange
 
-            Mock<IProductService> mockService = new Mock<IProductService>();
-
             mockService.Setup(m => m.GetProductList())
            .Throws(new Exception("error"));
-
-            ProductsController controller = new ProductsController(mockService.Object);
 
             //Act
 
@@ -106,15 +107,9 @@ namespace ProductTests.ControllerTests
                 UnitsMax = 125
             };
 
-
-            Mock<IProductService> mockService = new Mock<IProductService>();
             mockService.Setup(m => m.GetProduct(
                 It.IsAny<int>()
            )).Returns(product);
-
-            IProductService productService = mockService.Object;
-
-            ProductsController controller = new ProductsController(productService);
 
             //-------------------------------------
             //Act
@@ -133,6 +128,7 @@ namespace ProductTests.ControllerTests
             Assert.NotNull(productResult);
             Assert.Equal(4, product.ProductID);
         }
+
         [Fact]
         public void Get_Returns_NotFound_When_Product_NotFound()
         {
@@ -141,14 +137,9 @@ namespace ProductTests.ControllerTests
             //-------------------------------------
             Product product = null;
 
-            Mock<IProductService> mockService = new Mock<IProductService>();
             mockService.Setup(m => m.GetProduct(
                 It.IsAny<int>()
            )).Returns(product);
-
-            IProductService productService = mockService.Object;
-
-            ProductsController controller = new ProductsController(productService);
 
             //-------------------------------------
             //Act
@@ -162,6 +153,7 @@ namespace ProductTests.ControllerTests
 
             Assert.NotNull(actionResult);
             var result = Assert.IsType<NotFoundResult>(actionResult);
+
         }
         [Fact]
         public void Get_Returns_500_When_Exception()
@@ -169,14 +161,10 @@ namespace ProductTests.ControllerTests
             //-------------------------------------
             //Arrange
             //-------------------------------------
-            Mock<IProductService> mockService = new Mock<IProductService>();
+
             mockService.Setup(m => m.GetProduct(
                 It.IsAny<int>()
            )).Throws(new Exception("error"));
-
-            IProductService productService = mockService.Object;
-
-            ProductsController controller = new ProductsController(productService);
 
             //-------------------------------------
             //Act
@@ -194,5 +182,43 @@ namespace ProductTests.ControllerTests
             Assert.Equal(500, result.StatusCode);
         }
 
+        [Fact]
+        public void GetPost_Returns_New_Id_When_Created()
+        {
+            int expectedId = int.MaxValue;
+            var product = new Product { };
+
+            mockService.Setup(m => m.CreateProduct(
+                It.IsAny<Product>()
+            )).Returns(expectedId);
+
+            ActionResult actionResult = controller.Post(product);
+
+            OkObjectResult result = Assert.IsType<OkObjectResult>(actionResult);
+
+            //int id = Convert.ToInt32(result.Value);
+            int actualResult = Assert.IsType<int>(result.Value);
+
+            Assert.Equal(expectedId, actualResult);
+        }
+
+        [Fact]
+        public void GetPost_Returns_500_When_ExceptionOccurs()
+        {
+            var product = new Product { ProductName = "lalalala" };
+
+            mockService.Setup(m => m.CreateProduct(
+                It.IsAny<Product>()
+            )).Throws(new Exception());
+
+            ActionResult actionResult = controller.Post(product);
+
+            ObjectResult result = Assert.IsType<ObjectResult>(actionResult);
+
+            Assert.Equal(500, result.StatusCode);
+        }
+
+        
     }
+
 }
