@@ -130,6 +130,8 @@ namespace ProductsApi.Controllers
         public ActionResult Post(User user)
         {
             ActionResult actionResult = null;
+            bool err500 = false;
+            string errMessage = null;
 
             try
             {
@@ -141,13 +143,22 @@ namespace ProductsApi.Controllers
                 }
                 else
                 {
-                    actionResult = NotFound();
+                    err500 = true;
+                    errMessage = "userService.CreateUser returned 0";
                 }
             }
             catch (Exception ex)
             {
-                string message = $"Unable to process update request: {ex.Message}";
-                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+                err500 = true;
+                errMessage = ex.Message;
+            }
+            finally
+            {
+                if (err500 == true)
+                {
+                    string message = $"Unable to process post request - {errMessage}";
+                    actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+                }
             }
 
             return actionResult;

@@ -185,7 +185,6 @@ namespace ProductsApi.Repositories
             return list;
         }
 
-
         public void UpdateProduct(Product product)
         {
             SqlConnection conn = new SqlConnection();

@@ -190,8 +190,10 @@ namespace ProductTests.ControllerTests
         }
 
         [Fact]
-        public void GetPost_Returns_New_Id_When_Created()
+        public void Post_Returns_New_Id_When_Created()
         {
+            // Arrange
+
             int expectedId = int.MaxValue;
             var user = new User { };
 
@@ -199,7 +201,11 @@ namespace ProductTests.ControllerTests
                 It.IsAny<User>()
             )).Returns(expectedId);
 
+            // Act
+
             ActionResult actionResult = controller.Post(user);
+
+            // Assert
 
             OkObjectResult result = Assert.IsType<OkObjectResult>(actionResult);
 
@@ -210,7 +216,7 @@ namespace ProductTests.ControllerTests
         }
 
         [Fact]
-        public void GetPost_Returns_NotFound_When_User_NotFound()
+        public void Post_Returns_NotFound_When_User_NotFound()
         {
             User user = new User { };
             var expectedId = int.MaxValue;
@@ -233,15 +239,44 @@ namespace ProductTests.ControllerTests
         }
 
         [Fact]
-        public void GetPost_Returns_500_When_ExceptionOccurs()
+        public void Post_Returns_500_When_ExceptionOccurs()
         {
+            // Arrange
+
             var user = new User { UserName = "lalalala" };
 
             mockService.Setup(m => m.CreateUser(
                 It.IsAny<User>()
             )).Throws(new Exception());
 
+            // Act
+
             ActionResult actionResult = controller.Post(user);
+
+            // Assert
+
+            ObjectResult result = Assert.IsType<ObjectResult>(actionResult);
+
+            Assert.Equal(500, result.StatusCode);
+        }
+
+        [Fact]
+        public void Post_Returns_500_When_Service_Returns_0()
+        {
+            // Arrange
+            int expectedId = 0;
+
+            var user = new User { UserName = "lalalala" };
+
+            mockService.Setup(m => m.CreateUser(
+                It.IsAny<User>()
+            )).Returns(expectedId);
+
+            // Act
+
+            ActionResult actionResult = controller.Post(user);
+
+            // Assert
 
             ObjectResult result = Assert.IsType<ObjectResult>(actionResult);
 
