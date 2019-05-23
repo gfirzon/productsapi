@@ -98,29 +98,51 @@ namespace ProductTests.ServiceTests
             Assert.NotNull(list);
         }
 
+
         [Fact]
-        public void UpdateVendor_Returns_true_When_dbVendor_Not_Null()
+        public void UpdateVendor_Returns_True_When_dbVendor_VendorFound()
         {
             // Arrange
-            bool result = false;
+            var vendor = new Vendor { };
 
-            var vendor = new Vendor
-            {
-                VendorID = 6,
-                VendorName = "XOXOXO",
-                VendorPhone = "5556665566"
-            };
+            mockRepository.Setup(m => m.GetVendor(
+                It.IsAny<int>()
+                )).Returns(vendor);
 
-            Vendor dbVendor = new Vendor();
-            dbVendor = service.GetVendor(dbVendor.VendorID);
-            mockRepository.Setup(m => m.UpdateVendor(dbVendor));
+            mockRepository.Setup(m => m.UpdateVendor(
+                It.IsAny<Vendor>()
+                ));
 
             // Act
-            result = service.UpdateVendor(vendor);
+           bool result = service.UpdateVendor(vendor);
+
+            // Asserts
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void UpdateVendor_Returns_true_When_dbVendor_NotFound()
+        {
+            // Arrange
+            var vendor = new Vendor { };
+            Vendor v = null;
+
+            mockRepository.Setup(m => m.GetVendor(
+                 It.IsAny<int>()
+            )).Returns(v);
+
+            mockRepository.Setup(m => m.UpdateVendor(
+                It.IsAny<Vendor>()
+            ));
+                       
+            // Act
+            bool result = service.UpdateVendor(vendor);
 
             // Asserts
             Assert.False(result);
         }
+
+
 
     }
 }
