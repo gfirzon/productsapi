@@ -419,7 +419,7 @@ namespace ProductTests.ControllerTests
         }
 
         [Fact]
-        public void UpdateUser_Returns_OK_When_Updated()
+        public void Put_Returns_OK_When_Updated()
         {
             //-------------------------------------
             // Arrange
@@ -445,7 +445,7 @@ namespace ProductTests.ControllerTests
         }
 
         [Fact]
-        public void UpdateUser_Returns_NotFound_When_User_NotUpdated()
+        public void Put_Returns_NotFound_When_User_NotUpdated()
         {
             // Arrange
 
@@ -469,7 +469,7 @@ namespace ProductTests.ControllerTests
         }
 
         [Fact]
-        public void UpdateUser_Returns_500_When_Exception()
+        public void Put_Returns_500_When_Exception()
         {
             //-------------------------------------
             //Arrange
