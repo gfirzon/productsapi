@@ -80,18 +80,19 @@ namespace ProductsApi.Controllers
             try
             {
                 UserViewModel user = userService.GetUserViewModel(id);
-                if (user == null)
+
+                if (user != null)
                 {
-                    return NotFound();
+                    actionResult = Ok(user);
                 }
                 else
                 {
-                    return Ok(user);
+                    actionResult = NotFound();
                 }
             }
             catch (Exception ex)
             {
-                string message = $"Unable to process update request: {ex.Message}";
+                string message = $"Unable to process: {ex.Message}";
                 actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
             }
 
@@ -111,14 +112,10 @@ namespace ProductsApi.Controllers
                 {
                     actionResult = Ok(list);
                 }
-                else
-                {
-                    actionResult = NotFound();
-                }
             }
             catch (Exception ex)
             {
-                string message = $"Unable to process update request: {ex.Message}";
+                string message = $"Unable to process: {ex.Message}";
                 actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
             }
 
@@ -176,7 +173,7 @@ namespace ProductsApi.Controllers
 
                 if (isUpdated == true)
                 {
-                    actionResult = Ok();
+                    actionResult = Ok("Product updated....");
                 }
                 else
                 {

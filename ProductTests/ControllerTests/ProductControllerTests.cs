@@ -27,7 +27,7 @@ namespace ProductTests.ControllerTests
         {
             //Arrange
 
-            var productList = new List<Product>{
+            var productList = new List<Product> {
                 new Product{
                     ProductID = 1,
                     ProductName = "milk",
@@ -57,7 +57,8 @@ namespace ProductTests.ControllerTests
                 }
             };
 
-            mockService.Setup(m => m.GetProductList()).Returns(productList);
+            mockService.Setup(m => m.GetProductList())
+                .Returns(productList);
 
             //Act
 
@@ -153,6 +154,7 @@ namespace ProductTests.ControllerTests
 
             Assert.NotNull(actionResult);
             var result = Assert.IsType<NotFoundResult>(actionResult);
+            Assert.Equal(404, result.StatusCode);
 
         }
         [Fact]
@@ -164,7 +166,7 @@ namespace ProductTests.ControllerTests
 
             mockService.Setup(m => m.GetProduct(
                 It.IsAny<int>()
-           )).Throws(new Exception("error"));
+           )).Throws(new Exception("Error"));
 
             //-------------------------------------
             //Act
@@ -183,8 +185,10 @@ namespace ProductTests.ControllerTests
         }
 
         [Fact]
-        public void GetPost_Returns_New_Id_When_Created()
+        public void Post_Returns_New_Id_When_Created()
         {
+            // Arrange
+
             int expectedId = int.MaxValue;
             var product = new Product { };
 
@@ -192,7 +196,11 @@ namespace ProductTests.ControllerTests
                 It.IsAny<Product>()
             )).Returns(expectedId);
 
+            // Act
+            
             ActionResult actionResult = controller.Post(product);
+
+            // Assert
 
             OkObjectResult result = Assert.IsType<OkObjectResult>(actionResult);
 
@@ -203,22 +211,131 @@ namespace ProductTests.ControllerTests
         }
 
         [Fact]
-        public void GetPost_Returns_500_When_ExceptionOccurs()
+        public void Post_Returns_500_When_ExceptionOccurs()
         {
+            // Arrange
+
             var product = new Product { ProductName = "lalalala" };
 
             mockService.Setup(m => m.CreateProduct(
                 It.IsAny<Product>()
             )).Throws(new Exception());
 
+            // Act
+
             ActionResult actionResult = controller.Post(product);
+
+            // Assert
+
+            ObjectResult result = Assert.IsType<ObjectResult>(actionResult);
+
+            Assert.Equal(500, result.StatusCode);
+        }
+        [Fact]
+        public void Post_Returns_500_When_Service_Returns_0()
+        {
+            // Arrange
+
+            int expectedId = 0;
+
+            var product = new Product { ProductName = "lalalala" };
+
+            mockService.Setup(m => m.CreateProduct(
+                It.IsAny<Product>()
+            )).Returns(expectedId);
+
+            // Act
+
+            ActionResult actionResult = controller.Post(product);
+
+            // Assert
 
             ObjectResult result = Assert.IsType<ObjectResult>(actionResult);
 
             Assert.Equal(500, result.StatusCode);
         }
 
-        
+        [Fact]
+        public void Put_Returns_OK_When_Updated()
+        {
+            //-------------------------------------
+            // Arrange
+            //-------------------------------------
+
+            var product = new Product { ProductID = 10, ProductName = "Milk" };
+            bool result = false;
+            
+            mockService.Setup(m => m.UpdateProduct(
+                It.IsAny<Product>()
+                )).Returns(result);
+            //-------------------------------------
+            // Act
+            //-------------------------------------
+
+            ActionResult actionResult = controller.Put(product);
+            
+            //-------------------------------------
+            // Assert
+            //-------------------------------------
+
+            Assert.NotNull(actionResult);
+        }
+
+        [Fact]
+        public void Put_Returns_NotFound_When_Product_NotUpdated()
+        {
+            // Arrange
+
+            var product = new Product { };
+
+            mockService.Setup(m => m.UpdateProduct(
+                It.IsAny<Product>()
+                ));
+
+            //-------------------------------------
+            // Act
+            //-------------------------------------
+
+            ActionResult actionResult = controller.Put(product);
+
+            //-------------------------------------
+            // Assert
+            //-------------------------------------
+
+            Assert.NotNull(actionResult);
+        }
+
+        [Fact]
+        public void Put_Returns_500_When_Exception()
+        {
+            //-------------------------------------
+            //Arrange
+            //-------------------------------------
+
+            var product = new Product { };
+
+            mockService.Setup(m => m.UpdateProduct(
+                It.IsAny<Product>()
+           )).Throws(new Exception("Error"));
+
+            //-------------------------------------
+            // Act
+            //-------------------------------------
+
+            ActionResult actionResult = controller.Put(product);
+
+            //-------------------------------------
+            //Asserts
+            //-------------------------------------
+
+            Assert.NotNull(actionResult);
+            var result = Assert.IsType<ObjectResult>(actionResult);
+
+            Assert.Equal(500, result.StatusCode);
+
+        }
+
+
     }
 
 }
