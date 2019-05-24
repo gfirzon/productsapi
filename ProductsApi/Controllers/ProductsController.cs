@@ -37,7 +37,7 @@ namespace ProductsApi.Controllers
             }
             catch (Exception ex) 
             {
-                string message = $"Unable to process update request: {ex.Message}";
+                string message = $"Unable to process get request: {ex.Message}";
                 actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
             }
             return actionResult;
@@ -64,7 +64,7 @@ namespace ProductsApi.Controllers
             }
             catch (Exception ex)
             {
-                string message = $"Unable to process update request: {ex.Message}";
+                string message = $"Unable to process get request: {ex.Message}";
                 actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
             }
 
@@ -77,6 +77,8 @@ namespace ProductsApi.Controllers
         public ActionResult Post(Product product)
         {
             ActionResult actionResult = null;
+            bool err500 = false;
+            string errMessage = null;
 
             try
             {
@@ -86,11 +88,24 @@ namespace ProductsApi.Controllers
                 {
                     actionResult = Ok(id);
                 }
+                else
+                {
+                    err500 = true;
+                    errMessage = "userService.CreateProduct returned 0";
+                }
             }
             catch (Exception ex)
             {
-                string message = $"Unable to process update request: {ex.Message}";
-                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+                err500 = true;
+                errMessage = ex.Message;
+            }
+            finally
+            {
+                if (err500 == true)
+                {
+                    string message = $"Unable to process post request - {errMessage}";
+                    actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+                }
             }
 
             return actionResult;

@@ -45,7 +45,8 @@ namespace ProductTests.ControllerTests
                 },
             };
 
-            mockService.Setup(m => m.GetUserList()).Returns(userList);
+            mockService.Setup(m => m.GetUserList())
+                .Returns(userList);
 
             //-------------------------------------
             //Act
@@ -213,29 +214,6 @@ namespace ProductTests.ControllerTests
             int actualResult = Assert.IsType<int>(result.Value);
 
             Assert.Equal(expectedId, actualResult);
-        }
-
-        [Fact]
-        public void Post_Returns_NotFound_When_User_NotFound()
-        {
-            User user = new User { };
-            var expectedId = int.MaxValue;
-
-            mockService.Setup(m => m.CreateUser(
-                It.IsAny<User>()
-            )).Returns(expectedId);
-
-            //---------------------------------------
-            // Act
-            //------------------------------------
-
-            ActionResult actionResult = controller.Post(user);
-
-            //-------------------------------------
-            //Asserts
-            //-------------------------------------
-
-            Assert.NotNull(actionResult);
         }
 
         [Fact]
@@ -439,6 +417,85 @@ namespace ProductTests.ControllerTests
             var result = Assert.IsType<ObjectResult>(actionResult);
             Assert.Equal(500, result.StatusCode);
         }
-              
+
+        [Fact]
+        public void Put_Returns_OK_When_Updated()
+        {
+            //-------------------------------------
+            // Arrange
+            //-------------------------------------
+
+            var user = new User { };
+            
+            mockService.Setup(m => m.UpdateUser(
+                It.IsAny<User>()
+                ));
+            //-------------------------------------
+            // Act
+            //-------------------------------------
+
+            ActionResult actionResult = controller.Put(user);
+
+            //-------------------------------------
+            // Assert
+            //-------------------------------------
+
+            Assert.NotNull(actionResult);
+
+        }
+
+        [Fact]
+        public void Put_Returns_NotFound_When_User_NotUpdated()
+        {
+            // Arrange
+
+            var user = new User {};
+            
+            mockService.Setup(m => m.UpdateUser(
+                It.IsAny<User>()
+                ));
+
+            //-------------------------------------
+            // Act
+            //-------------------------------------
+
+            ActionResult actionResult = controller.Put(user);
+
+            //-------------------------------------
+            // Assert
+            //-------------------------------------
+
+            Assert.NotNull(actionResult);
+        }
+
+        [Fact]
+        public void Put_Returns_500_When_Exception()
+        {
+            //-------------------------------------
+            //Arrange
+            //-------------------------------------
+
+            var user = new User { };
+
+            mockService.Setup(m => m.UpdateUser(
+                It.IsAny<User>()
+           )).Throws(new Exception("Error"));
+
+            //-------------------------------------
+            // Act
+            //-------------------------------------
+
+            ActionResult actionResult = controller.Put(user);
+
+            //-------------------------------------
+            //Asserts
+            //-------------------------------------
+
+            Assert.NotNull(actionResult);
+            var result = Assert.IsType<ObjectResult>(actionResult);
+
+            Assert.Equal(500, result.StatusCode);
+
+        }
     }
 }
