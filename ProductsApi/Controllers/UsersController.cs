@@ -36,7 +36,7 @@ namespace ProductsApi.Controllers
             }
             catch (Exception ex)
             {
-                string message = $"Unable to process update request: {ex.Message}";
+                string message = $"Unable to process Get User List request: {ex.Message}";
                 actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
             }
 
@@ -64,7 +64,7 @@ namespace ProductsApi.Controllers
             }
             catch (Exception ex)
             {
-                string message = $"Unable to process update request: {ex.Message}";
+                string message = $"Unable to process Get User by ID request: {ex.Message}";
                 actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
             }
 

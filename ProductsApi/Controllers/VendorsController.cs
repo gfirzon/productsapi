@@ -78,23 +78,31 @@ namespace ProductsApi.Controllers
         public ActionResult Post(Vendor vendor)
         {
             ActionResult actionResult = null;
+            bool err500 = false;
+            string errMessage = null;
 
             try
             {
                 int id = vendorService.CreateVendor(vendor);
 
-                if (vendor != null)
+                if (id != 0)
                 {
                     actionResult = Ok(id);
                 }
                 else
                 {
-                    actionResult = NotFound();
+                    err500 = true;
+                    errMessage = "vendorService.CreateVendor returned 0";
                 }
             }
             catch (Exception ex)
             {
-                string message = $"Unable to process Create Vendor request: {ex.Message}";
+                err500 = true;
+                errMessage = ex.Message;
+            }
+            finally
+            { 
+                string message = $"Unable to process Create Vendor request: {errMessage}";
                 actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
             }
 
