@@ -101,9 +101,12 @@ namespace ProductsApi.Controllers
                 errMessage = ex.Message;
             }
             finally
-            { 
-                string message = $"Unable to process Create Vendor request: {errMessage}";
-                actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+            {
+                if (err500)
+                {
+                    string message = $"Unable to process Create Vendor request: {errMessage}";
+                    actionResult = StatusCode(StatusCodes.Status500InternalServerError, message);
+                }
             }
 
             return actionResult;

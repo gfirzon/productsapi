@@ -429,7 +429,8 @@ namespace ProductTests.ControllerTests
             
             mockService.Setup(m => m.UpdateUser(
                 It.IsAny<User>()
-                ));
+            )).Returns(true);
+
             //-------------------------------------
             // Act
             //-------------------------------------
@@ -442,6 +443,7 @@ namespace ProductTests.ControllerTests
 
             Assert.NotNull(actionResult);
 
+            OkObjectResult result = Assert.IsType<OkObjectResult>(actionResult);
         }
 
         [Fact]
@@ -453,7 +455,7 @@ namespace ProductTests.ControllerTests
             
             mockService.Setup(m => m.UpdateUser(
                 It.IsAny<User>()
-                ));
+            )).Returns(false);
 
             //-------------------------------------
             // Act
@@ -466,6 +468,7 @@ namespace ProductTests.ControllerTests
             //-------------------------------------
 
             Assert.NotNull(actionResult);
+            NotFoundResult result = Assert.IsType<NotFoundResult>(actionResult);
         }
 
         [Fact]
