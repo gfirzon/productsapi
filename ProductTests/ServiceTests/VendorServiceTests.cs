@@ -71,7 +71,8 @@ namespace ProductTests.ServiceTests
             {
                 VendorID = 5,
                 VendorName = "DADADA",
-                VendorPhone = "7776665544"
+                VendorPhone = "7776665544",
+                Email = "lala@lala.com"
             };
 
             mockRepository.Setup(m => m.CreateVendor(vendor)).Returns(id);

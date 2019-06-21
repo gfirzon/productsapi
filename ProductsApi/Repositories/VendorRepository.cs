@@ -34,16 +34,25 @@ namespace ProductsApi.Repositories
             cmd.Parameters.Add(new SqlParameter
             {
                 ParameterName = "@VendorName",
-                SqlDbType = System.Data.SqlDbType.VarChar,
+                SqlDbType = System.Data.SqlDbType.NVarChar,
                 Value = vendor.VendorName,
                 Size = vendor.VendorName.Length
             });
+
             cmd.Parameters.Add(new SqlParameter
             {
                 ParameterName = "@VendorPhone",
                 SqlDbType = System.Data.SqlDbType.VarChar,
                 Value = vendor.VendorPhone,
                 Size = vendor.VendorPhone.Length
+            });
+
+            cmd.Parameters.Add(new SqlParameter
+            {
+                ParameterName = "@Email",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Value = vendor.Email,
+                Size = vendor.Email.Length
             });
 
             cmd.Parameters.Add(new SqlParameter
@@ -82,6 +91,7 @@ namespace ProductsApi.Repositories
                 int id = Convert.ToInt32(reader["VendorId"]);
                 string vendorName = reader["VendorName"].ToString();
                 string vendorPhone = reader["VendorPhone"].ToString();
+                string email = reader["Email"].ToString();
 
                 Vendor vendor = new Vendor
 
@@ -89,7 +99,7 @@ namespace ProductsApi.Repositories
                     VendorID = id,
                     VendorName = vendorName,
                     VendorPhone = vendorPhone,
-
+                    Email = email
                 };
                 list.Add(vendor);
             }
@@ -126,12 +136,14 @@ namespace ProductsApi.Repositories
                 int vendorID = Convert.ToInt32(reader["VendorID"]);
                 string vendorName = reader["VendorName"].ToString();
                 string vendorPhone = reader["VendorPhone"].ToString();
+                string email = reader["Email"].ToString();
 
                 vendor = new Vendor
                 {
                     VendorID = id,
                     VendorName = vendorName,
                     VendorPhone = vendorPhone,
+                    Email = email
                 };
             }
 
@@ -176,6 +188,14 @@ namespace ProductsApi.Repositories
                 SqlDbType = System.Data.SqlDbType.VarChar,
                 Value = vendor.VendorPhone,
                 Size = vendor.VendorPhone.Length
+            });
+
+            cmd.Parameters.Add(new SqlParameter
+            {
+                ParameterName = "@Email",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Value = vendor.Email,
+                Size = vendor.Email.Length
             });
 
             cmd.ExecuteNonQuery();

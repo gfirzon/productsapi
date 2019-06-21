@@ -10,5 +10,6 @@ namespace ProductsApi.Models
         public int VendorID { get; set; }
         public string VendorName { get; set; }
         public string VendorPhone { get; set; }
+        public string Email { get; set; }
     }
 }
