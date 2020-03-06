@@ -173,7 +173,7 @@ namespace ProductsApi.Controllers
 
                 if (isUpdated == true)
                 {
-                    actionResult = Ok("Product updated....");
+                    actionResult = Ok();
                 }
                 else
                 {
