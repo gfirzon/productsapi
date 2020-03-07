@@ -18,16 +18,20 @@ namespace ProductsApi.Repositories
 
         public int CreateProduct(Product product)
         {
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connectionString;
+            SqlConnection conn = new SqlConnection
+            {
+                ConnectionString = connectionString
+            };
             conn.Open();
 
             string query = @"sp_CreateProduct";
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = conn;
-            cmd.CommandText = query;
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            SqlCommand cmd = new SqlCommand
+            {
+                Connection = conn,
+                CommandText = query,
+                CommandType = System.Data.CommandType.StoredProcedure
+            };
 
             cmd.Parameters.Add(new SqlParameter
             {
@@ -94,19 +98,25 @@ namespace ProductsApi.Repositories
         {
             Product product = null;
 
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connectionString;
+            SqlConnection conn = new SqlConnection
+            {
+                ConnectionString = connectionString
+            };
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = conn;
-            cmd.CommandText = "sp_GetProductByID";
+            SqlCommand cmd = new SqlCommand
+            {
+                CommandType = System.Data.CommandType.StoredProcedure,
+                Connection = conn,
+                CommandText = "sp_GetProductByID"
+            };
 
-            SqlParameter param = new SqlParameter();
-            param.ParameterName = "@ProductID";
-            param.SqlDbType = System.Data.SqlDbType.Int;
-            param.Value = productId;
+            SqlParameter param = new SqlParameter
+            {
+                ParameterName = "@ProductID",
+                SqlDbType = System.Data.SqlDbType.Int,
+                Value = productId
+            };
 
             cmd.Parameters.Add(param);
 
@@ -144,14 +154,18 @@ namespace ProductsApi.Repositories
         {
             List<Product> list = new List<Product>();
 
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connectionString;
+            SqlConnection conn = new SqlConnection
+            {
+                ConnectionString = connectionString
+            };
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = conn;
-            cmd.CommandText = "sp_GetProducts";
+            SqlCommand cmd = new SqlCommand
+            {
+                CommandType = System.Data.CommandType.StoredProcedure,
+                Connection = conn,
+                CommandText = "sp_GetProducts"
+            };
 
             SqlDataReader reader = cmd.ExecuteReader();
 
@@ -187,16 +201,20 @@ namespace ProductsApi.Repositories
 
         public void UpdateProduct(Product product)
         {
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connectionString;
+            SqlConnection conn = new SqlConnection
+            {
+                ConnectionString = connectionString
+            };
             conn.Open();
 
             string query = @"sp_UpdateProduct";
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = conn;
-            cmd.CommandText = query;
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            SqlCommand cmd = new SqlCommand
+            {
+                Connection = conn,
+                CommandText = query,
+                CommandType = System.Data.CommandType.StoredProcedure
+            };
 
             cmd.Parameters.Add(new SqlParameter
             {
